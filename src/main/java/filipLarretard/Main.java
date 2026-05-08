@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import kong.unirest.Unirest;
+import kong.unirest.HttpResponse;
+
 import java.nio.file.Files; // Filhantering
 import java.nio.file.Paths; // Filhantering
 import java.lang.reflect.Type; // För att Spara Typen från TypeToken
@@ -16,63 +19,68 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        try {
-            List<book> books = getthebook.getAllbooks();
-            books.forEach(System.out::println);
-        } catch (IOException e) {
-            System.out.println("Error: " + e.getMessage());
-        }
+
     }
 }
 
-class book {
-    private int id;
+class Media {
+    private String id;
     private String title;
-    private String author;
+    private boolean isAvalible;
 
-    public book(int id, String name, String email) {
+    public Media(String id, String title, boolean isAvalible) {
         this.id = id;
-        this.title = name;
-        this.author = email;
+        this.title = title;
+        this.isAvalible = isAvalible;
     }
 
     @Override
-    public String toString() {
-        return "User{id=" + id + ", title='" + title + "', author='" + author + "'}";
+    public String toString(){
+        return "id= "+ id +  "title= "+ title + ", isAvalible = " + isAvalible;
     }
 }
 
-class getthebook {
+class Book extends Media{
+    private int pages;
+    private String author;
+    private String genre;
 
-    private static final Gson gson = new Gson();
-    private static final String BASE_URL = "http://10.151.168.5:3147";
-
-    // GET a single object
-    public static book getUser(int bookid) throws IOException {
-        URL url = new URL(BASE_URL + "/users/" + bookid);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        conn.setRequestProperty("Accept", "application/json");
-
-        // Read the response
-        try (BufferedReader reader = new BufferedReader(
-                new InputStreamReader(conn.getInputStream()))) {
-            return gson.fromJson(reader, book.class); // Deserialize JSON → Object
-        }
+    public Book(int pages, String author, String genre, String id, String title, boolean isAvalible){
+        super(id, title, isAvalible);
+        this.pages = pages;
+        this.author = author;
+        this.genre = genre;
     }
-
-    // GET a list of objects
-    public static List<book> getAllbooks() throws IOException {
-        URL url = new URL(BASE_URL + "/books");
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        conn.setRequestProperty("Accept", "application/json");
-
-        try (BufferedReader reader = new BufferedReader(
-                new InputStreamReader(conn.getInputStream()))) {
-            Type listType = new TypeToken<List<book>>(){}.getType();
-            return gson.fromJson(reader, listType); // Deserialize JSON array → List
-        }
+    @Override
+    public String toString(){
+        return super.toString() + ", pages = " + pages + " ,Author = " + author + ", genre = " + genre;
     }
 }
 
+class Magazinis extends Media{
+    private int issueNumber;
+    private int publishYear;
+    private String category;
+
+    public Magazinis(int issueNumber, int publishYear, String category, String id, String title, boolean isAvalible){
+        super(id, title, isAvalible);
+        this.issueNumber = issueNumber;
+        this.publishYear = publishYear;
+        this.category = category;
+    }
+
+    @Override
+    public String toString(){
+        return super.toString() + ", Issue number = " + issueNumber + ", Publish year = " + publishYear + ", Category = " + category;
+    }
+}
+
+class getTheMedia{
+    private static String BaseURL;
+    public static List<Book> getAllbooks(){
+
+        HttpResponse<String> response = Unirest.get(BaseURL+"/books").asString();
+        Gson gson = new Gson();
+
+    }
+}
