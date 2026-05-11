@@ -19,8 +19,8 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        for (Magazinis mag : getTheMedia.getRequest("magazines", Magazinis.class)){
-            System.out.println(mag);
+        for (Book book : getTheMedia.getRequest("books", Book.class)){
+            System.out.println(book);
         }
     }
 }
@@ -28,17 +28,17 @@ public class Main {
 class Media {
     private String id;
     private String title;
-    private boolean isAvalible;
+    private boolean isAvailable;
 
-    public Media(String id, String title, boolean isAvalible) {
+    public Media(String id, String title, boolean isAvailable) {
         this.id = id;
         this.title = title;
-        this.isAvalible = isAvalible;
+        this.isAvailable = isAvailable;
     }
 
     @Override
     public String toString(){
-        return "id= "+ id +  "title= "+ title + ", isAvalible = " + isAvalible;
+        return "id= "+ id +  "title= "+ title + ", isAvailable = " + isAvailable;
     }
 }
 
@@ -47,8 +47,8 @@ class Book extends Media{
     private String author;
     private String genre;
 
-    public Book(int pages, String author, String genre, String id, String title, boolean isAvalible){
-        super(id, title, isAvalible);
+    public Book(int pages, String author, String genre, String id, String title, boolean isAvailable){
+        super(id, title, isAvailable);
         this.pages = pages;
         this.author = author;
         this.genre = genre;
@@ -61,19 +61,19 @@ class Book extends Media{
 
 class Magazinis extends Media{
     private int issueNumber;
-    private int publishYear;
+    private int publishedYear;
     private String category;
 
-    public Magazinis(int issueNumber, int publishYear, String category, String id, String title, boolean isAvalible){
-        super(id, title, isAvalible);
+    public Magazinis(int issueNumber, int publishedYear, String category, String id, String title, boolean isAvailable){
+        super(id, title, isAvailable);
         this.issueNumber = issueNumber;
-        this.publishYear = publishYear;
+        this.publishedYear = publishedYear;
         this.category = category;
     }
 
     @Override
     public String toString(){
-        return super.toString() + ", Issue number = " + issueNumber + ", Publish year = " + publishYear + ", Category = " + category;
+        return super.toString() + ", Issue number = " + issueNumber + ", Publish year = " + publishedYear + ", Category = " + category;
     }
 }
 
