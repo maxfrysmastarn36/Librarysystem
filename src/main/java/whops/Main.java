@@ -1,4 +1,4 @@
-package filipLarretard;
+package whops;
 import com.google.gson.Gson; // För att skapa en gson objekt att läsa in
 import com.google.gson.GsonBuilder; // Skapa Gson med mer lättläst output
 import com.google.gson.reflect.TypeToken; // Skapa TypeToken
