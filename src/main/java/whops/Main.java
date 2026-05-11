@@ -19,7 +19,9 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-
+        for (Book book : getTheMedia.getAllbooks()){
+            System.out.println(book);
+        }
     }
 }
 
@@ -76,12 +78,12 @@ class Magazinis extends Media{
 }
 
 class getTheMedia{
-    private static String BaseURL;
+    private static String BaseURL =  "http://10.151.168.5:3147/";
     public static List<Book> getAllbooks(){
-
-        HttpResponse<String> response = Unirest.get(BaseURL+"/books").asString();
+        HttpResponse<String> response = Unirest.get(BaseURL+"books").asString();
         Gson gson = new Gson();
-        s
-
+        Type listType = new TypeToken<List<Book>>() {}.getType();
+        List<Book> list = gson.fromJson(response.getBody(), listType);
+        return list;
     }
 }
